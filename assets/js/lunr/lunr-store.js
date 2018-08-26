@@ -18,4 +18,9 @@ var store = [{
         "excerpt":"In ECS, entities are just an identifier which components will be attached to, usually just an integer. Rather than just a typedef for Int, I decided to make Entity a struct to provide a bit more type safety. I’m trusting in the swift compiler to make this reasonably efficient. struct...","categories": [],
         "tags": [],
         "url": "http://localhost:4000/2018/08/23/the-e-in-ecs.html",
+        "teaser":null},{
+        "title": "VUELTA BEGINS!",
+        "excerpt":"Vuelta Espana started today. An 8k TT with a surprisingly bad performance from Richie Porte. Did I miss some news about him being sick or something? I wouldn’t expect him to beat Rohan Dennis, but to lose 21 seconds on Quintana is pretty shocking. Will Kwiatkowski go for GC even...","categories": [],
+        "tags": [],
+        "url": "http://localhost:4000/2018/08/25/vuelta-starts.html",
         "teaser":null}]
