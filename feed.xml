@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-08-25T13:42:31-05:00</updated><id>http://localhost:4000/</id><title type="html">Blue Rope</title><subtitle>A blog about nothing of consequence.</subtitle><entry><title type="html">The ‘E’ in ECS</title><link href="http://localhost:4000/2018/08/23/the-e-in-ecs.html" rel="alternate" type="text/html" title="The 'E' in ECS" /><published>2018-08-23T00:00:00-05:00</published><updated>2018-08-23T00:00:00-05:00</updated><id>http://localhost:4000/2018/08/23/the-e-in-ecs</id><content type="html" xml:base="http://localhost:4000/2018/08/23/the-e-in-ecs.html">&lt;p&gt;In ECS, entities are just an identifier which components will be attached to, usually just an integer.&lt;/p&gt;
+
+&lt;p&gt;Rather than just a typedef for Int, I decided to make Entity a struct to provide a bit more type safety.  I’m trusting in the swift compiler to make this reasonably efficient.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;struct Entity : Hashable {
+	let id: Int
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;entitybuilder&quot;&gt;EntityBuilder&lt;/h1&gt;
+
+&lt;p&gt;Unique ids need to be assigned to each new entity.  In addition, when entities are created, we’re going to need to usually add components to them.  So there’s an &lt;code class=&quot;highlighter-rouge&quot;&gt;EntityBuilder&lt;/code&gt; class that will create and assign ids to new entities.&lt;/p&gt;
+
+&lt;p&gt;Also, when entities are destroyed, we’ll want to reclaim those ids and notify anyone interested that the entities are gone.&lt;/p&gt;
+
+&lt;p&gt;We’ll come back to &lt;code class=&quot;highlighter-rouge&quot;&gt;EntityBuilder&lt;/code&gt; to help us add components to an entity&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class EntityBuilder {
+	/***
+	 * Builds an entity with the next available id
+	 */
+	func build() -&amp;gt; Entity {
+		if let freeId = _freeIds.last {
+			_freeIds.removeLast()
+			return Entity(id: freeId)
+		}
+		defer { _nextId += 1 }
+		return Entity(id: _nextId)
+	}
+
+	/***
+	 * Destroys an entity, returning it's id to the pool and notifies any registered entity container that it's been destroyed.
+	 */
+	func destroy(entity: Entity) {
+		for list in _lists {
+			list.remove(entity: entity)
+		}
+		_freeIds.append(entity.id)
+	}
+	/***
+	 * Destroys all entities
+	 */
+	func destroyAll() {
+		_nextId = 0
+		_freeIds = []
+		for list in _lists {
+			list.removeAll()
+		}
+	}
+
+	/***
+	 * Registers a container with the builder that will be notified when an entity is destroyed.
+	 * This allows the container to clean up any resources associated with the entity
+	 */
+	func register(componentList: EntityContainer) {
+		_lists.append(componentList)
+	}
+	/***
+	 * Registers multiple containers with the builder.
+	 */
+	func register(lists: [EntityContainer]) {
+		_lists += lists
+	}
+    private var _nextId = 0
+	private var _freeIds = [Int]()
+	private var _lists = [EntityContainer]()
+	
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The protocol for EntityContainer is fairly straight forward&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/***
+ * Protocol for anything that needs to be notified when an entity is destroyed
+ */
+protocol EntityContainer {
+	func remove(entity: Entity)
+	func removeAll()
+	func register(with builder: EntityBuilder) -&amp;gt; Self
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So we end up with an entity builder that can create entities and destroy them, then notify anything interested when entities are destroyed (purely for cleaning up any resources).&lt;/p&gt;
+
+&lt;p&gt;Next up: components&lt;/p&gt;</content><author><name></name></author><summary type="html">In ECS, entities are just an identifier which components will be attached to, usually just an integer.</summary></entry><entry><title type="html">Eat. Race. Win.</title><link href="http://localhost:4000/2018/08/13/eat-race-win.html" rel="alternate" type="text/html" title="Eat. Race. Win." /><published>2018-08-13T00:00:00-05:00</published><updated>2018-08-13T00:00:00-05:00</updated><id>http://localhost:4000/2018/08/13/eat-race-win</id><content type="html" xml:base="http://localhost:4000/2018/08/13/eat-race-win.html">&lt;p&gt;I’m almost through watching this on Amazon Prime. It’s coverving the 2017 Tour de France with Orica Scott, and focusing on how their chef feeds them for 3 weeks.&lt;/p&gt;
+
+&lt;p&gt;It combines 2 of the things I love: cycling and eating.  Very enjoyable so far.&lt;/p&gt;
+
+&lt;p&gt;The biggest negative is that the racing commentary seems to be a voice over.  It clashes with the rest of it.&lt;/p&gt;</content><author><name></name></author><summary type="html">I’m almost through watching this on Amazon Prime. It’s coverving the 2017 Tour de France with Orica Scott, and focusing on how their chef feeds them for 3 weeks.</summary></entry><entry><title type="html">Journey to ECS</title><link href="http://localhost:4000/2018/08/11/journey-to-ecs.html" rel="alternate" type="text/html" title="Journey to ECS" /><published>2018-08-11T00:00:00-05:00</published><updated>2018-08-11T00:00:00-05:00</updated><id>http://localhost:4000/2018/08/11/journey-to-ecs</id><content type="html" xml:base="http://localhost:4000/2018/08/11/journey-to-ecs.html">&lt;p&gt;While I’m a developer by day, I don’t do much iOS development anymore and certainly no game development.&lt;/p&gt;
+
+&lt;p&gt;I’ve had many ideas for games in the past and have toyed with them, but I’ve finally started working a bit more on a particular idea.  Part of this is to improve my swift knowledge (I work mostly in C# and Typescript), but mostly it’s just for fun.&lt;/p&gt;
+
+&lt;p&gt;To begin with, I looked at using iOS’s GameplayKit ECS (entity component system, for those who are unfamiliar with the pattern), but I decided quickly that isn’t very ‘swifty’ and, more importantly, I’d enjoy implementing this kind of thing myself.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Important note:&lt;/strong&gt; As I’ve mentioned before, I’m not a game developer (I was one long, long ago before ECS became a popular pattern used in game development).  I’m also not a swift expert.  So, I freely admit that anything I come up with here might be scoffed at by a real game developer.  Also anyone that really just wants to make a game should probably just use an existing tool (Unity, Unreal, etc.)&lt;/p&gt;
+
+&lt;h1 id=&quot;what-is-an-ecs&quot;&gt;What is an ECS&lt;/h1&gt;
+
+&lt;p&gt;There are plenty of places you can read about the basics of ECS.  Rather than attempting to explain it (poorly), I’ll just provide a few links.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://en.m.wikipedia.org/wiki/Entity–component–system&quot;&gt;Wikipedia Description&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://en.m.wikipedia.org/wiki/Entity–component–system&quot;&gt;gamedev.net Description&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;goals&quot;&gt;Goals&lt;/h1&gt;
+
+&lt;p&gt;I want the ECS to end up with the following qualities in rough order of priority&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Easy to use and read&lt;/li&gt;
+  &lt;li&gt;Typesafe&lt;/li&gt;
+  &lt;li&gt;Reasonable performance&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I don’t really need blistering performance, but I definitely don’t want it to suck.&lt;/p&gt;
+
+&lt;p&gt;This is already way longer than I intended.  I want to try and keep posts short so I can post more often.  We’ll see how it goes.&lt;/p&gt;</content><author><name></name></author><summary type="html">While I’m a developer by day, I don’t do much iOS development anymore and certainly no game development.</summary></entry><entry><title type="html">Back to Blogging</title><link href="http://localhost:4000/2018/08/08/back-to-blogging.html" rel="alternate" type="text/html" title="Back to Blogging" /><published>2018-08-08T00:00:00-05:00</published><updated>2018-08-08T00:00:00-05:00</updated><id>http://localhost:4000/2018/08/08/back-to-blogging</id><content type="html" xml:base="http://localhost:4000/2018/08/08/back-to-blogging.html">&lt;p&gt;It’s been a long time since I’ve blogged, and I never really good about keeping it consistent before anyway.  I’m going to give it another shot to see it I can provide anything useful to anyone else.&lt;/p&gt;
+
+&lt;p&gt;In general I’ll be writing mostly about software development, but also some about games (tabletop and video) and cycling (I’m no fitness guru but I’m a cyclist and runner, so I do like talking about it sometimes)&lt;/p&gt;</content><author><name></name></author><summary type="html">It’s been a long time since I’ve blogged, and I never really good about keeping it consistent before anyway. I’m going to give it another shot to see it I can provide anything useful to anyone else.</summary></entry></feed>

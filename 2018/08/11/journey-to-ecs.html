@@ -1,0 +1,413 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.12.1 by Michael Rose
+  Copyright 2013-2018 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE.txt
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Journey to ECS - Blue Rope</title>
+<meta name="description" content="While I’m a developer by day, I don’t do much iOS development anymore and certainly no game development.">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Blue Rope">
+<meta property="og:title" content="Journey to ECS">
+<meta property="og:url" content="http://localhost:4000/2018/08/11/journey-to-ecs.html">
+
+
+  <meta property="og:description" content="While I’m a developer by day, I don’t do much iOS development anymore and certainly no game development.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2018-08-11T00:00:00-05:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/2018/08/11/journey-to-ecs.html">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Blue Rope Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if lte IE 9]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Blue Rope</a>
+        <ul class="visible-links">
+          
+            
+            <li class="masthead__menu-item">
+              <a href="http://localhost:4000/about/" >About</a>
+            </li>
+          
+        </ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle Menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name"></h3>
+    
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Journey to ECS">
+    <meta itemprop="description" content="While I’m a developer by day, I don’t do much iOS development anymore and certainly no game development.">
+    <meta itemprop="datePublished" content="August 11, 2018">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Journey to ECS
+</h1>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>While I’m a developer by day, I don’t do much iOS development anymore and certainly no game development.</p>
+
+<p>I’ve had many ideas for games in the past and have toyed with them, but I’ve finally started working a bit more on a particular idea.  Part of this is to improve my swift knowledge (I work mostly in C# and Typescript), but mostly it’s just for fun.</p>
+
+<p>To begin with, I looked at using iOS’s GameplayKit ECS (entity component system, for those who are unfamiliar with the pattern), but I decided quickly that isn’t very ‘swifty’ and, more importantly, I’d enjoy implementing this kind of thing myself.</p>
+
+<p><strong>Important note:</strong> As I’ve mentioned before, I’m not a game developer (I was one long, long ago before ECS became a popular pattern used in game development).  I’m also not a swift expert.  So, I freely admit that anything I come up with here might be scoffed at by a real game developer.  Also anyone that really just wants to make a game should probably just use an existing tool (Unity, Unreal, etc.)</p>
+
+<h1 id="what-is-an-ecs">What is an ECS</h1>
+
+<p>There are plenty of places you can read about the basics of ECS.  Rather than attempting to explain it (poorly), I’ll just provide a few links.</p>
+
+<ul>
+  <li><a href="https://en.m.wikipedia.org/wiki/Entity–component–system">Wikipedia Description</a></li>
+  <li><a href="https://en.m.wikipedia.org/wiki/Entity–component–system">gamedev.net Description</a></li>
+</ul>
+
+<h1 id="goals">Goals</h1>
+
+<p>I want the ECS to end up with the following qualities in rough order of priority</p>
+
+<ul>
+  <li>Easy to use and read</li>
+  <li>Typesafe</li>
+  <li>Reasonable performance</li>
+</ul>
+
+<p>I don’t really need blistering performance, but I definitely don’t want it to suck.</p>
+
+<p>This is already way longer than I intended.  I want to try and keep posts short so I can post more often.  We’ll see how it goes.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-08-11T00:00:00-05:00">August 11, 2018</time></p>
+        
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Journey+to+ECS%20http%3A%2F%2Flocalhost%3A4000%2F2018%2F08%2F11%2Fjourney-to-ecs.html" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2F2018%2F08%2F11%2Fjourney-to-ecs.html" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=http%3A%2F%2Flocalhost%3A4000%2F2018%2F08%2F11%2Fjourney-to-ecs.html" class="btn btn--google-plus" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Google Plus"><i class="fab fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2F2018%2F08%2F11%2Fjourney-to-ecs.html" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/2018/08/08/back-to-blogging.html" class="pagination--pager" title="Back to Blogging
+">Previous</a>
+    
+    
+      <a href="/2018/08/13/eat-race-win.html" class="pagination--pager" title="Eat. Race. Win.
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018/08/23/the-e-in-ecs.html" rel="permalink">The ‘E’ in ECS
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">In ECS, entities are just an identifier which components will be attached to, usually just an integer.
+
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018/08/13/eat-race-win.html" rel="permalink">Eat. Race. Win.
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">I’m almost through watching this on Amazon Prime. It’s coverving the 2017 Tour de France with Orica Scott, and focusing on how their chef feeds them for 3 we...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018/08/08/back-to-blogging.html" rel="permalink">Back to Blogging
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">It’s been a long time since I’ve blogged, and I never really good about keeping it consistent before anyway.  I’m going to give it another shot to see it I c...</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+    
+    
+    
+    
+    
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    <li><a href="https://micro.blog/njallain" rel="me"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Micro.blog</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2018 Blue Rope. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+
+
+
+
+
+
+
+  </body>
+</html>
