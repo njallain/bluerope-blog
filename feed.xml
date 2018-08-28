@@ -1,4 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="https://bluerope.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://bluerope.org/" rel="alternate" type="text/html" /><updated>2018-08-26T07:42:12-05:00</updated><id>https://bluerope.org/</id><title type="html">Blue Rope</title><subtitle>A blog about nothing of consequence.</subtitle><entry><title type="html">VUELTA BEGINS!</title><link href="https://bluerope.org/2018/08/25/vuelta-starts.html" rel="alternate" type="text/html" title="VUELTA BEGINS!" /><published>2018-08-25T00:00:00-05:00</published><updated>2018-08-25T00:00:00-05:00</updated><id>https://bluerope.org/2018/08/25/vuelta-starts</id><content type="html" xml:base="https://bluerope.org/2018/08/25/vuelta-starts.html">&lt;p&gt;Vuelta Espana started today.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="https://bluerope.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://bluerope.org/" rel="alternate" type="text/html" /><updated>2018-08-28T15:48:06-05:00</updated><id>https://bluerope.org/</id><title type="html">Blue Rope</title><subtitle>A blog about nothing of consequence.</subtitle><entry><title type="html">C comes after E?</title><link href="https://bluerope.org/2018/08/28/components.html" rel="alternate" type="text/html" title="C comes after E?" /><published>2018-08-28T00:00:00-05:00</published><updated>2018-08-28T00:00:00-05:00</updated><id>https://bluerope.org/2018/08/28/components</id><content type="html" xml:base="https://bluerope.org/2018/08/28/components.html">&lt;p&gt;On the surface components are fairly simple.  In ECS, a component, is basically a set of properties that an entity has.  So if the entity is located somewhere, it might have a Location component with x and y coordinates.  In fact, even though I’m add a protocol for &lt;code class=&quot;highlighter-rouge&quot;&gt;Component&lt;/code&gt;, there’s nothing in it.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;protocol Component {
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I added it just in case I ever do need anything on the base component and to add a bit of clarity to the purpose of anything that’s used as a component.&lt;/p&gt;
+
+&lt;h1 id=&quot;componentcontainer&quot;&gt;ComponentContainer&lt;/h1&gt;
+
+&lt;p&gt;The slightly more complicated part of components is how they’re stored and associated to an entity.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;protocol ComponentContainer : EntityContainer {
+	associatedtype ComponentType where ComponentType : Component
+	func get(entity: Entity) -&amp;gt; ComponentType?
+	func update(entity: Entity, component: ComponentType)
+	var entities: AnySequence&amp;lt;(Entity, ComponentType)&amp;gt; {get}
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;At first I tried to allow the component container able to be a struct, but it ended up really not working well for reasons that’ll be covered later.&lt;/p&gt;
+
+&lt;p&gt;Right now I think there are 2 types of component containers:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Dense where the majority of entities have the component&lt;/li&gt;
+  &lt;li&gt;Sparse where only a few entities have the component&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The dense container will internally use an array to store components and the sparse container will use a dictionary instead.  While the implementations are pretty short, I’ll leave them out for now for reasons below.&lt;/p&gt;
+
+&lt;h1 id=&quot;next-up&quot;&gt;Next up&lt;/h1&gt;
+
+&lt;p&gt;I’ve come to realize that talking about ECS in isolation doesn’t really work well.  I’ve been implementing it while working on a game which drives what I need it to do, but that isn’t really shown in these posts.&lt;/p&gt;
+
+&lt;p&gt;To fix that, I’ll write a simple game to go along with it.  It won’t be anywhere near complicated enough to really justify using an ECS (I’m thinking Breakout), but hopefully it’ll be enough to illustrate how it’s used.&lt;/p&gt;
+
+&lt;p&gt;Once I have enough of it in place, I’ll add a github repository with the ECS implementation and the sample game.&lt;/p&gt;
+
+&lt;p&gt;:computer:&lt;/p&gt;</content><author><name></name></author><summary type="html">On the surface components are fairly simple. In ECS, a component, is basically a set of properties that an entity has. So if the entity is located somewhere, it might have a Location component with x and y coordinates. In fact, even though I’m add a protocol for Component, there’s nothing in it.</summary></entry><entry><title type="html">VUELTA BEGINS!</title><link href="https://bluerope.org/2018/08/25/vuelta-starts.html" rel="alternate" type="text/html" title="VUELTA BEGINS!" /><published>2018-08-25T00:00:00-05:00</published><updated>2018-08-25T00:00:00-05:00</updated><id>https://bluerope.org/2018/08/25/vuelta-starts</id><content type="html" xml:base="https://bluerope.org/2018/08/25/vuelta-starts.html">&lt;p&gt;Vuelta Espana started today.&lt;/p&gt;
 
 &lt;p&gt;An 8k TT with a surprisingly bad performance from Richie Porte.  Did I miss some news about him being sick or something?  I wouldn’t expect him to beat Rohan Dennis, but to lose 21 seconds on Quintana is pretty shocking.&lt;/p&gt;
 

@@ -23,4 +23,9 @@ var store = [{
         "excerpt":"Vuelta Espana started today. An 8k TT with a surprisingly bad performance from Richie Porte. Did I miss some news about him being sick or something? I wouldn’t expect him to beat Rohan Dennis, but to lose 21 seconds on Quintana is pretty shocking. Will Kwiatkowski go for GC even...","categories": [],
         "tags": [],
         "url": "https://bluerope.org/2018/08/25/vuelta-starts.html",
+        "teaser":null},{
+        "title": "C comes after E?",
+        "excerpt":"On the surface components are fairly simple. In ECS, a component, is basically a set of properties that an entity has. So if the entity is located somewhere, it might have a Location component with x and y coordinates. In fact, even though I’m add a protocol for Component, there’s...","categories": [],
+        "tags": [],
+        "url": "https://bluerope.org/2018/08/28/components.html",
         "teaser":null}]
