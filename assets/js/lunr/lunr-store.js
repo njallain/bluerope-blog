@@ -28,4 +28,9 @@ var store = [{
         "excerpt":"On the surface components are fairly simple. In ECS, a component, is basically a set of properties that an entity has. So if the entity is located somewhere, it might have a Location component with x and y coordinates. In fact, even though I’m add a protocol for Component, there’s...","categories": [],
         "tags": [],
         "url": "https://bluerope.org/2018/08/28/components.html",
+        "teaser":null},{
+        "title": "Huge win for Ben King!",
+        "excerpt":"I’m so excited to see Ben King win a stage in this year’s Vuelta.  A truly epic ride. And he posted his full ride to Strava, so geeks like me can be amazed. :bicyclist: ","categories": [],
+        "tags": [],
+        "url": "https://bluerope.org/2018/08/29/vuelta-stage-4.html",
         "teaser":null}]
