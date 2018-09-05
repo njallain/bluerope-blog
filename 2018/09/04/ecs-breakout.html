@@ -9,34 +9,34 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Journey to Swift ECS - Blue Rope</title>
-<meta name="description" content="While I’m a developer by day, I don’t do much iOS development anymore and certainly no game development.">
+<!-- begin _includes/seo.html --><title>ECS Breakout - Blue Rope</title>
+<meta name="description" content="Like I mentioned last time, properly designing and explaining an ECS is best if done in the context of a game.I am actually designing a game while doing it, but for explaining it I want a very simple game.">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Blue Rope">
-<meta property="og:title" content="Journey to Swift ECS">
-<meta property="og:url" content="https://bluerope.org/2018/08/11/journey-to-ecs.html">
+<meta property="og:title" content="ECS Breakout">
+<meta property="og:url" content="https://bluerope.org/2018/09/04/ecs-breakout.html">
 
 
-  <meta property="og:description" content="While I’m a developer by day, I don’t do much iOS development anymore and certainly no game development.">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2018-08-11T00:00:00-05:00">
+  <meta property="og:description" content="Like I mentioned last time, properly designing and explaining an ECS is best if done in the context of a game.I am actually designing a game while doing it, but for explaining it I want a very simple game.">
 
 
 
 
 
 
-<link rel="canonical" href="https://bluerope.org/2018/08/11/journey-to-ecs.html">
+
+  <meta property="article:published_time" content="2018-09-04T00:00:00-05:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://bluerope.org/2018/09/04/ecs-breakout.html">
 
 
 
@@ -214,15 +214,15 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Journey to Swift ECS">
-    <meta itemprop="description" content="While I’m a developer by day, I don’t do much iOS development anymore and certainly no game development.">
-    <meta itemprop="datePublished" content="August 11, 2018">
+    <meta itemprop="headline" content="ECS Breakout">
+    <meta itemprop="description" content="Like I mentioned last time, properly designing and explaining an ECS is best if done in the context of a game.I am actually designing a game while doing it, but for explaining it I want a very simple game.">
+    <meta itemprop="datePublished" content="September 04, 2018">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Journey to Swift ECS
+          <h1 id="page-title" class="page__title" itemprop="headline">ECS Breakout
 </h1>
           
         </header>
@@ -230,36 +230,39 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>While I’m a developer by day, I don’t do much iOS development anymore and certainly no game development.</p>
+        <p>Like I mentioned last time, properly designing and explaining an ECS is best if done in the context of a game.
+I am actually designing a game while doing it, but for explaining it I want a very simple game.</p>
 
-<p>I’ve had many ideas for games in the past and have toyed with them, but I’ve finally started working a bit more on a particular idea.  Part of this is to improve my swift knowledge (I work mostly in C# and Typescript), but mostly it’s just for fun.</p>
+<p>Breakout is very simple (and is one of the first games I’ve ever owned back on my Atari 2600), so I’m satisfied
+that it’s a good choice.</p>
 
-<p>To begin with, I looked at using iOS’s GameplayKit ECS (entity component system, for those who are unfamiliar with the pattern), but I decided quickly that isn’t very ‘swifty’ and, more importantly, I’d enjoy implementing this kind of thing myself.</p>
+<p>I will, however, expand a bit on simple breakout in order to use a bit more functionality out of ECS.  Instead
+of single player Breakout, I’ll make Breakout Deathmatch!</p>
 
-<p><strong>Important note:</strong> As I’ve mentioned before, I’m not a game developer (I was one long, long ago before ECS became a popular pattern used in game development).  I’m also not a swift expert.  So, I freely admit that anything I come up with here might be scoffed at by a real game developer.  Also anyone that really just wants to make a game should probably just use an existing tool (Unity, Unreal, etc.)</p>
+<p>Instead of just one player, there will be two.  Here’s the basic design:</p>
 
-<h1 id="what-is-an-ecs">What is an ECS</h1>
+<p><img src="/assets/images/breakout_design.png" alt="Break design"></p>
 
-<p>There are plenty of places you can read about the basics of ECS.  Rather than attempting to explain it (poorly), I’ll just provide a few links.</p>
+<p>Please excuse the horrendous drawing.  Another benefit of doing Breakout is that
+it won’t require anymore of my art.</p>
 
+<h1 id="the-rules">The Rules</h1>
 <ul>
-  <li><a href="https://en.m.wikipedia.org/wiki/Entity%E2%80%93component%E2%80%93system">Wikipedia Description</a></li>
-  <li><a href="https://en.m.wikipedia.org/wiki/Entity%E2%80%93component%E2%80%93system">gamedev.net Description</a></li>
+  <li>The bricks will be colored differently on each side.</li>
+  <li>Each ball will be ‘owned’ by the last player that hit it with their paddle.</li>
+  <li>When a brick is broken by a ball, the player that owns that ball will get points.</li>
+  <li>When a ball breaks an opposing brick, it will give more points than a same side brick.</li>
 </ul>
 
-<h1 id="goals">Goals</h1>
-
-<p>I want the ECS to end up with the following qualities in rough order of priority</p>
-
+<h1 id="previously">Previously</h1>
 <ul>
-  <li>Easy to use and read</li>
-  <li>Typesafe</li>
-  <li>Reasonable performance</li>
+  <li><a href="/2018/08/11/journey-to-ecs.html">Journey to Swift ECS</a></li>
+  <li><a href="/2018/08/23/the-e-in-ecs.html">The E in ECS</a></li>
+  <li><a href="/2018/08/28/components.html">C comes after E?</a></li>
 </ul>
 
-<p>I don’t really need blistering performance, but I definitely don’t want it to suck.</p>
-
-<p>This is already way longer than I intended.  I want to try and keep posts short so I can post more often.  We’ll see how it goes.</p>
+<h1 id="next-up">Next up</h1>
+<p>We’ll get back into actually implementing this and see the basic patterns for a system.</p>
 
 <p><img class="emoji" title=":computer:" alt=":computer:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f4bb.png" height="20" width="20"></p>
 
@@ -272,32 +275,31 @@
 
 
         
-          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-08-11T00:00:00-05:00">August 11, 2018</time></p>
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-09-04T00:00:00-05:00">September 04, 2018</time></p>
         
       </footer>
 
       <section class="page__share">
   
 
-  <a href="https://twitter.com/intent/tweet?text=Journey+to+Swift+ECS%20https%3A%2F%2Fbluerope.org%2F2018%2F08%2F11%2Fjourney-to-ecs.html" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=ECS+Breakout%20https%3A%2F%2Fbluerope.org%2F2018%2F09%2F04%2Fecs-breakout.html" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbluerope.org%2F2018%2F08%2F11%2Fjourney-to-ecs.html" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbluerope.org%2F2018%2F09%2F04%2Fecs-breakout.html" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://plus.google.com/share?url=https%3A%2F%2Fbluerope.org%2F2018%2F08%2F11%2Fjourney-to-ecs.html" class="btn btn--google-plus" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Google Plus"><i class="fab fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+  <a href="https://plus.google.com/share?url=https%3A%2F%2Fbluerope.org%2F2018%2F09%2F04%2Fecs-breakout.html" class="btn btn--google-plus" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Google Plus"><i class="fab fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fbluerope.org%2F2018%2F08%2F11%2Fjourney-to-ecs.html" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fbluerope.org%2F2018%2F09%2F04%2Fecs-breakout.html" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/2018/08/08/back-to-blogging.html" class="pagination--pager" title="Back to Blogging
+      <a href="/2018/09/02/another-vuelta-win.html" class="pagination--pager" title="Another Vuelta Win for King
 ">Previous</a>
     
     
-      <a href="/2018/08/13/eat-race-win.html" class="pagination--pager" title="Eat. Race. Win.
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -311,25 +313,6 @@
     <div class="page__related">
       <h4 class="page__related-title">You May Also Enjoy</h4>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/2018/09/04/ecs-breakout.html" rel="permalink">ECS Breakout
-</a>
-      
-    </h2>
-    
-    <p class="archive__item-excerpt" itemprop="description">Like I mentioned last time, properly designing and explaining an ECS is best if done in the context of a game.
-I am actually designing a game while doing it,...</p>
-  </article>
-</div>
         
           
 
@@ -387,6 +370,26 @@ Luckily tomorrow is a rest day.
     </h2>
     
     <p class="archive__item-excerpt" itemprop="description">On the surface components are fairly simple.  In ECS, a component, is basically a set of properties that an entity has.  So if the entity is located somewher...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018/08/25/vuelta-starts.html" rel="permalink">VUELTA BEGINS!
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">Vuelta Espana started today.
+
+</p>
   </article>
 </div>
         

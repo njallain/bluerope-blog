@@ -1,4 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="https://bluerope.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://bluerope.org/" rel="alternate" type="text/html" /><updated>2018-09-02T14:39:49-05:00</updated><id>https://bluerope.org/</id><title type="html">Blue Rope</title><subtitle>A blog about nothing of consequence.</subtitle><entry><title type="html">Another Vuelta Win for King</title><link href="https://bluerope.org/2018/09/02/another-vuelta-win.html" rel="alternate" type="text/html" title="Another Vuelta Win for King" /><published>2018-09-02T00:00:00-05:00</published><updated>2018-09-02T00:00:00-05:00</updated><id>https://bluerope.org/2018/09/02/another-vuelta-win</id><content type="html" xml:base="https://bluerope.org/2018/09/02/another-vuelta-win.html">&lt;p&gt;Can’t believe he got another win in the Vuelta.  He looked absolutely trashed after the stage.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="https://bluerope.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://bluerope.org/" rel="alternate" type="text/html" /><updated>2018-09-04T19:44:25-05:00</updated><id>https://bluerope.org/</id><title type="html">Blue Rope</title><subtitle>A blog about nothing of consequence.</subtitle><entry><title type="html">ECS Breakout</title><link href="https://bluerope.org/2018/09/04/ecs-breakout.html" rel="alternate" type="text/html" title="ECS Breakout" /><published>2018-09-04T00:00:00-05:00</published><updated>2018-09-04T00:00:00-05:00</updated><id>https://bluerope.org/2018/09/04/ecs-breakout</id><content type="html" xml:base="https://bluerope.org/2018/09/04/ecs-breakout.html">&lt;p&gt;Like I mentioned last time, properly designing and explaining an ECS is best if done in the context of a game.
+I am actually designing a game while doing it, but for explaining it I want a very simple game.&lt;/p&gt;
+
+&lt;p&gt;Breakout is very simple (and is one of the first games I’ve ever owned back on my Atari 2600), so I’m satisfied
+that it’s a good choice.&lt;/p&gt;
+
+&lt;p&gt;I will, however, expand a bit on simple breakout in order to use a bit more functionality out of ECS.  Instead
+of single player Breakout, I’ll make Breakout Deathmatch!&lt;/p&gt;
+
+&lt;p&gt;Instead of just one player, there will be two.  Here’s the basic design:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/breakout_design.png&quot; alt=&quot;Break design&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Please excuse the horrendous drawing.  Another benefit of doing Breakout is that
+it won’t require anymore of my art.&lt;/p&gt;
+
+&lt;h1 id=&quot;the-rules&quot;&gt;The Rules&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;The bricks will be colored differently on each side.&lt;/li&gt;
+  &lt;li&gt;Each ball will be ‘owned’ by the last player that hit it with their paddle.&lt;/li&gt;
+  &lt;li&gt;When a brick is broken by a ball, the player that owns that ball will get points.&lt;/li&gt;
+  &lt;li&gt;When a ball breaks an opposing brick, it will give more points than a same side brick.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;previously&quot;&gt;Previously&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/2018/08/11/journey-to-ecs.html&quot;&gt;Journey to Swift ECS&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2018/08/23/the-e-in-ecs.html&quot;&gt;The E in ECS&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2018/08/28/components.html&quot;&gt;C comes after E?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;next-up&quot;&gt;Next up&lt;/h1&gt;
+&lt;p&gt;We’ll get back into actually implementing this and see the basic patterns for a system.&lt;/p&gt;
+
+&lt;p&gt;:computer:&lt;/p&gt;</content><author><name></name></author><category term="swift" /><summary type="html">Like I mentioned last time, properly designing and explaining an ECS is best if done in the context of a game. I am actually designing a game while doing it, but for explaining it I want a very simple game.</summary></entry><entry><title type="html">Another Vuelta Win for King</title><link href="https://bluerope.org/2018/09/02/another-vuelta-win.html" rel="alternate" type="text/html" title="Another Vuelta Win for King" /><published>2018-09-02T00:00:00-05:00</published><updated>2018-09-02T00:00:00-05:00</updated><id>https://bluerope.org/2018/09/02/another-vuelta-win</id><content type="html" xml:base="https://bluerope.org/2018/09/02/another-vuelta-win.html">&lt;p&gt;Can’t believe he got another win in the Vuelta.  He looked absolutely trashed after the stage.
 Luckily tomorrow is a rest day.&lt;/p&gt;
 
 &lt;p&gt;Once again, he posted his ride to &lt;a href=&quot;https://www.strava.com/activities/1815212662/overview&quot;&gt;Strava&lt;/a&gt;.

@@ -38,4 +38,9 @@ var store = [{
         "excerpt":"Can’t believe he got another win in the Vuelta.  He looked absolutely trashed after the stage.Luckily tomorrow is a rest day. Once again, he posted his ride to Strava.I like how left the activity title as “Lunch Ride”. :bicyclist: ","categories": [],
         "tags": ["cycling"],
         "url": "https://bluerope.org/2018/09/02/another-vuelta-win.html",
+        "teaser":null},{
+        "title": "ECS Breakout",
+        "excerpt":"Like I mentioned last time, properly designing and explaining an ECS is best if done in the context of a game.I am actually designing a game while doing it, but for explaining it I want a very simple game. Breakout is very simple (and is one of the first games...","categories": [],
+        "tags": ["swift"],
+        "url": "https://bluerope.org/2018/09/04/ecs-breakout.html",
         "teaser":null}]
