@@ -43,4 +43,9 @@ var store = [{
         "excerpt":"Like I mentioned last time, properly designing and explaining an ECS is best if done in the context of a game.I am actually designing a game while doing it, but for explaining it I want a very simple game. Breakout is very simple (and is one of the first games...","categories": [],
         "tags": ["swift"],
         "url": "https://bluerope.org/2018/09/04/ecs-breakout.html",
+        "teaser":null},{
+        "title": "Simple Systems",
+        "excerpt":"One of the main reasons I decided to include a game example while documenting the ECS development isthat I found that much of it is about the pattern that I use with it rather than the actual code itself. The basic idea of a system in ECS is that it...","categories": [],
+        "tags": ["swift"],
+        "url": "https://bluerope.org/2018/09/07/simple-systems.html",
         "teaser":null}]

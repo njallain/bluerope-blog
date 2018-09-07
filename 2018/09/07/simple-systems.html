@@ -1,0 +1,523 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.12.1 by Michael Rose
+  Copyright 2013-2018 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE.txt
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Simple Systems - Blue Rope</title>
+<meta name="description" content="One of the main reasons I decided to include a game example while documenting the ECS development isthat I found that much of it is about the pattern that I use with it rather than the actual code itself.">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Blue Rope">
+<meta property="og:title" content="Simple Systems">
+<meta property="og:url" content="https://bluerope.org/2018/09/07/simple-systems.html">
+
+
+  <meta property="og:description" content="One of the main reasons I decided to include a game example while documenting the ECS development isthat I found that much of it is about the pattern that I use with it rather than the actual code itself.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2018-09-07T00:00:00-05:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://bluerope.org/2018/09/07/simple-systems.html">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Blue Rope Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if lte IE 9]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Blue Rope</a>
+        <ul class="visible-links">
+          
+            
+            <li class="masthead__menu-item">
+              <a href="https://bluerope.org/about/">About</a>
+            </li>
+          
+        </ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle Menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name"></h3>
+    
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Simple Systems">
+    <meta itemprop="description" content="One of the main reasons I decided to include a game example while documenting the ECS development isthat I found that much of it is about the pattern that I use with it rather than the actual code itself.">
+    <meta itemprop="datePublished" content="September 07, 2018">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Simple Systems
+</h1>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>One of the main reasons I decided to include a game example while documenting the ECS development is
+that I found that much of it is about the pattern that I use with it rather than the actual code itself.</p>
+
+<p>The basic idea of a system in ECS is that it handles any changes needed by components for each game loop.
+So it your game has components with velocity, a system is responsible for moving those components the appropriate amount.</p>
+
+<p>In my first attempts an an ECS before this, I equated a system to the list of components that it needed to deal with.
+So a <code class="highlighter-rouge">MovementSystem</code> would have a container of <code class="highlighter-rouge">Movement</code> components that it processes.</p>
+
+<p>The problem with that is that 2 different systems might share components.  A <code class="highlighter-rouge">Location</code> component would be needed by
+a system handling physics and a system that was making decisions for computer controlled entities.</p>
+
+<p>So, the top level <code class="highlighter-rouge">EntityScene</code> will have all of the component containers.  Each system will declare what components it needs
+and the scene will pass those into the system each game loop.</p>
+
+<h1 id="example-system">Example System</h1>
+<p>That’s still kind of abstract so here’s an example from the game for the <code class="highlighter-rouge">MovementSystem</code>.  The implementations are left out
+here because</p>
+
+<h2 id="components">Components</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>///  Describes how an entity moves
+struct Movable : Component {
+}
+
+protocol MovableComponents {
+  associatedtype MovableContainerType: ComponentContainer where MovableContainerType.ComponentType == Movable
+  var movables: MovableContainerType {get}
+}
+
+/// Describes the physical body and location of an entity
+struct Body : Component {
+}
+
+protocol BodyComponents {
+  associatedtype BodyContainerType: ComponentContainer where BodyContainerType.ComponentType == Body
+  var bodies: BodyContainerType {get}
+}
+</code></pre></div></div>
+<p>The important parts of this are the <code class="highlighter-rouge">MovableComponents</code> and <code class="highlighter-rouge">BodyComponents</code> protocols.  These will be used for a system to declare what kind of components
+it is dependent on.</p>
+
+<p>A similar pattern will be followed for each component in the game.  So for every component, there will be an additional protocol for systems to declare
+their dependencies.</p>
+
+<p>I tried playing around with Xcode snippets a bit to see if I could make adding them a bit easier, but that seems insufficient.  I think an Xcode template will work.</p>
+
+<h2 id="system">System</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
+ The movement system depends on the following components
+ - Movables: determine how the entity moves
+ - Bodies: the location of the entity
+*/
+protocol MovementScene: EntityScene, MovableComponents, BodyComponents {
+}
+
+/**
+ Moves all of the components that need to be
+*/
+class MovementSystem&lt;SceneType: MovementScene&gt;: System {
+  func update&lt;SceneType: MovementScene&gt;(scene: SceneType, timeDelta: TimeInterval) {
+    scene.movables.forEach(with: scene.bodies) { entity, movable, body in
+      // move the entity
+    }
+  }
+}
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">MovementScene</code> protocol is how we declare what the <code class="highlighter-rouge">MovementSystem</code> is dependent on. The <code class="highlighter-rouge">EntityScene</code> protocol is just the base protocol
+for scenes and includes a property for the <code class="highlighter-rouge">EntityBuilder</code> so entities can be added and removed.</p>
+
+<p>Then it’s dependent on the two protocols we just declared.  So when it’s time to update (each game loop), 
+the MovementSystem can update any scene that has both <code class="highlighter-rouge">Movable</code> and <code class="highlighter-rouge">Body</code> components.</p>
+
+<p>The <code class="highlighter-rouge">MovementSystem</code> itself, will iterate over all entities that have <code class="highlighter-rouge">Movable</code> and <code class="highlighter-rouge">Body</code> components and move them the appropriate amount.</p>
+
+<p>The <code class="highlighter-rouge">forEach</code> function is an extension on a <code class="highlighter-rouge">ComponentContainer</code> that simplifies iterating entities when multiple components are required.</p>
+
+<h2 id="scene">Scene</h2>
+<p>Finally there’s the scene itself.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class BreakoutScene: EntityScene, MovementScene, CollisionScene {
+  let builder = EntityBuilder()
+
+  // all components
+  let bodies = DenseComponentContainer&lt;Body&gt;()
+  let movables = SparseComponentContainer&lt;Movable&gt;()
+
+  // all systems
+  let movementSystem = MovementSystem&lt;BreakoutScene&gt;()
+
+  func update(_ timeDelta: TimeInterval) {
+    movementSystem.update(scene: self, timeDelta: timeDelta)
+    // update the other systems
+  }
+}
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">BreakoutScene</code> class is pretty much an analog for the <code class="highlighter-rouge">SKScene</code> subclass that would be in a SpriteKit
+game.  I’ve chosen to keep it separate just to keep a bit of extra separation from the SpriteKit specific code.</p>
+
+<h1 id="git-repositories">Git repositories</h1>
+<p>I’ve put up a repository for the Breakout game and SwiftECS</p>
+
+<ul>
+  <li><a href="https://github.com/njallain/SwiftECS">SwiftECS</a></li>
+  <li><a href="https://github.com/njallain/Breakout">Breakout</a></li>
+</ul>
+
+<h1 id="previously">Previously</h1>
+<ul>
+  <li><a href="/2018/08/11/journey-to-ecs.html">Journey to Swift ECS</a></li>
+  <li><a href="/2018/08/23/the-e-in-ecs.html">The E in ECS</a></li>
+  <li><a href="/2018/08/28/components.html">C comes after E?</a></li>
+  <li><a href="/2018/09/04/ecs-breakout.html">ECS Breakout</a></li>
+</ul>
+
+<h1 id="next-up">Next up</h1>
+<p>We’ll get back into actually implementing this and see the basic patterns for a system.</p>
+
+<p><img class="emoji" title=":computer:" alt=":computer:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f4bb.png" height="20" width="20"></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-09-07T00:00:00-05:00">September 07, 2018</time></p>
+        
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Simple+Systems%20https%3A%2F%2Fbluerope.org%2F2018%2F09%2F07%2Fsimple-systems.html" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbluerope.org%2F2018%2F09%2F07%2Fsimple-systems.html" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https%3A%2F%2Fbluerope.org%2F2018%2F09%2F07%2Fsimple-systems.html" class="btn btn--google-plus" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Google Plus"><i class="fab fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fbluerope.org%2F2018%2F09%2F07%2Fsimple-systems.html" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/2018/09/04/ecs-breakout.html" class="pagination--pager" title="ECS Breakout
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018/09/04/ecs-breakout.html" rel="permalink">ECS Breakout
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">Like I mentioned last time, properly designing and explaining an ECS is best if done in the context of a game.
+I am actually designing a game while doing it,...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018/09/02/another-vuelta-win.html" rel="permalink">Another Vuelta Win for King
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">Can’t believe he got another win in the Vuelta.  He looked absolutely trashed after the stage.
+Luckily tomorrow is a rest day.
+
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018/08/29/vuelta-stage-4.html" rel="permalink">Huge win for Ben King!
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">I’m so excited to see Ben King win a stage in this year’s Vuelta.  A truly epic ride.
+
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/2018/08/28/components.html" rel="permalink">C comes after E?
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">On the surface components are fairly simple.  In ECS, a component, is basically a set of properties that an entity has.  So if the entity is located somewher...</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+    
+    
+    
+    
+    
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    <li><a href="https://micro.blog/njallain" rel="me"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Micro.blog</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">© 2018 Blue Rope. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+
+
+
+
+
+
+
+  </body>
+</html>
