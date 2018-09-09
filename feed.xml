@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="https://bluerope.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://bluerope.org/" rel="alternate" type="text/html" /><updated>2018-09-07T15:51:40-05:00</updated><id>https://bluerope.org/</id><title type="html">Blue Rope</title><subtitle>A blog about nothing of consequence.</subtitle><entry><title type="html">Simple Systems</title><link href="https://bluerope.org/2018/09/07/simple-systems.html" rel="alternate" type="text/html" title="Simple Systems" /><published>2018-09-07T00:00:00-05:00</published><updated>2018-09-07T00:00:00-05:00</updated><id>https://bluerope.org/2018/09/07/simple-systems</id><content type="html" xml:base="https://bluerope.org/2018/09/07/simple-systems.html">&lt;p&gt;One of the main reasons I decided to include a game example while documenting the ECS development is
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="https://bluerope.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://bluerope.org/" rel="alternate" type="text/html" /><updated>2018-09-09T07:06:09-05:00</updated><id>https://bluerope.org/</id><title type="html">Blue Rope</title><subtitle>A blog about nothing of consequence.</subtitle><entry><title type="html">Simple Systems</title><link href="https://bluerope.org/2018/09/07/simple-systems.html" rel="alternate" type="text/html" title="Simple Systems" /><published>2018-09-07T00:00:00-05:00</published><updated>2018-09-07T00:00:00-05:00</updated><id>https://bluerope.org/2018/09/07/simple-systems</id><content type="html" xml:base="https://bluerope.org/2018/09/07/simple-systems.html">&lt;p&gt;One of the main reasons I decided to include a game example while documenting the ECS development is
 that I found that much of it is about the pattern that I use with it rather than the actual code itself.&lt;/p&gt;
 
 &lt;p&gt;The basic idea of a system in ECS is that it handles any changes needed by components for each game loop.
@@ -18,24 +18,25 @@ and the scene will pass those into the system each game loop.&lt;/p&gt;
 here because&lt;/p&gt;
 
 &lt;h2 id=&quot;components&quot;&gt;Components&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;///  Describes how an entity moves
-struct Movable : Component {
-}
 
-protocol MovableComponents {
-  associatedtype MovableContainerType: ComponentContainer where MovableContainerType.ComponentType == Movable
-  var movables: MovableContainerType {get}
-}
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;c1&quot;&gt;///  Describes how an entity moves&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Movable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Component&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-/// Describes the physical body and location of an entity
-struct Body : Component {
-}
+&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MovableComponents&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;associatedtype&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MovableContainerType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ComponentContainer&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MovableContainerType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;ComponentType&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Movable&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;movables&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MovableContainerType&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-protocol BodyComponents {
-  associatedtype BodyContainerType: ComponentContainer where BodyContainerType.ComponentType == Body
-  var bodies: BodyContainerType {get}
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;span class=&quot;c1&quot;&gt;/// Describes the physical body and location of an entity&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Body&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Component&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;BodyComponents&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;associatedtype&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;BodyContainerType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ComponentContainer&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;BodyContainerType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;ComponentType&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Body&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bodies&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;BodyContainerType&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
 &lt;p&gt;The important parts of this are the &lt;code class=&quot;highlighter-rouge&quot;&gt;MovableComponents&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;BodyComponents&lt;/code&gt; protocols.  These will be used for a system to declare what kind of components
 it is dependent on.&lt;/p&gt;
 
@@ -45,25 +46,25 @@ their dependencies.&lt;/p&gt;
 &lt;p&gt;I tried playing around with Xcode snippets a bit to see if I could make adding them a bit easier, but that seems insufficient.  I think an Xcode template will work.&lt;/p&gt;
 
 &lt;h2 id=&quot;system&quot;&gt;System&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/**
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;cm&quot;&gt;/**
  The movement system depends on the following components
  - Movables: determine how the entity moves
  - Bodies: the location of the entity
-*/
-protocol MovementScene: EntityScene, MovableComponents, BodyComponents {
-}
+*/&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MovementScene&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;EntityScene&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MovableComponents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;BodyComponents&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-/**
+&lt;span class=&quot;cm&quot;&gt;/**
  Moves all of the components that need to be
-*/
-class MovementSystem&amp;lt;SceneType: MovementScene&amp;gt;: System {
-  func update&amp;lt;SceneType: MovementScene&amp;gt;(scene: SceneType, timeDelta: TimeInterval) {
-    scene.movables.forEach(with: scene.bodies) { entity, movable, body in
-      // move the entity
-    }
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+*/&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MovementSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;SceneType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MovementScene&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;System&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;update&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;SceneType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MovementScene&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;scene&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;SceneType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;timeDelta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;TimeInterval&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;scene&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;movables&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;forEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scene&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bodies&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;movable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;body&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// move the entity&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;MovementScene&lt;/code&gt; protocol is how we declare what the &lt;code class=&quot;highlighter-rouge&quot;&gt;MovementSystem&lt;/code&gt; is dependent on. The &lt;code class=&quot;highlighter-rouge&quot;&gt;EntityScene&lt;/code&gt; protocol is just the base protocol
 for scenes and includes a property for the &lt;code class=&quot;highlighter-rouge&quot;&gt;EntityBuilder&lt;/code&gt; so entities can be added and removed.&lt;/p&gt;
@@ -77,22 +78,22 @@ the MovementSystem can update any scene that has both &lt;code class=&quot;highl
 
 &lt;h2 id=&quot;scene&quot;&gt;Scene&lt;/h2&gt;
 &lt;p&gt;Finally there’s the scene itself.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class BreakoutScene: EntityScene, MovementScene, CollisionScene {
-  let builder = EntityBuilder()
 
-  // all components
-  let bodies = DenseComponentContainer&amp;lt;Body&amp;gt;()
-  let movables = SparseComponentContainer&amp;lt;Movable&amp;gt;()
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;BreakoutScene&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;EntityScene&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MovementScene&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CollisionScene&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;builder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;EntityBuilder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 
-  // all systems
-  let movementSystem = MovementSystem&amp;lt;BreakoutScene&amp;gt;()
+  &lt;span class=&quot;c1&quot;&gt;// all components&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bodies&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DenseComponentContainer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Body&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;movables&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;SparseComponentContainer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Movable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 
-  func update(_ timeDelta: TimeInterval) {
-    movementSystem.update(scene: self, timeDelta: timeDelta)
-    // update the other systems
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;span class=&quot;c1&quot;&gt;// all systems&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;movementSystem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MovementSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;BreakoutScene&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;update&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;timeDelta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;TimeInterval&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;movementSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;update&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;scene&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;timeDelta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;timeDelta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// update the other systems&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;BreakoutScene&lt;/code&gt; class is pretty much an analog for the &lt;code class=&quot;highlighter-rouge&quot;&gt;SKScene&lt;/code&gt; subclass that would be in a SpriteKit
 game.  I’ve chosen to keep it separate just to keep a bit of extra separation from the SpriteKit specific code.&lt;/p&gt;
@@ -116,7 +117,10 @@ game.  I’ve chosen to keep it separate just to keep a bit of extra separation 
 &lt;h1 id=&quot;next-up&quot;&gt;Next up&lt;/h1&gt;
 &lt;p&gt;We’ll get back into actually implementing this and see the basic patterns for a system.&lt;/p&gt;
 
-&lt;p&gt;:computer:&lt;/p&gt;</content><author><name></name></author><category term="swift" /><summary type="html">One of the main reasons I decided to include a game example while documenting the ECS development is that I found that much of it is about the pattern that I use with it rather than the actual code itself.</summary></entry><entry><title type="html">ECS Breakout</title><link href="https://bluerope.org/2018/09/04/ecs-breakout.html" rel="alternate" type="text/html" title="ECS Breakout" /><published>2018-09-04T00:00:00-05:00</published><updated>2018-09-04T00:00:00-05:00</updated><id>https://bluerope.org/2018/09/04/ecs-breakout</id><content type="html" xml:base="https://bluerope.org/2018/09/04/ecs-breakout.html">&lt;p&gt;Like I mentioned last time, properly designing and explaining an ECS is best if done in the context of a game.
+&lt;h1 id=&quot;history&quot;&gt;History&lt;/h1&gt;
+&lt;p&gt;All posts about the development of SwiftECS can be found &lt;a href=&quot;https://bluerope.org/ecs&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;:computer:&lt;/p&gt;</content><author><name></name></author><category term="swift" /><category term="ecs" /><summary type="html">One of the main reasons I decided to include a game example while documenting the ECS development is that I found that much of it is about the pattern that I use with it rather than the actual code itself.</summary></entry><entry><title type="html">ECS Breakout</title><link href="https://bluerope.org/2018/09/04/ecs-breakout.html" rel="alternate" type="text/html" title="ECS Breakout" /><published>2018-09-04T00:00:00-05:00</published><updated>2018-09-04T00:00:00-05:00</updated><id>https://bluerope.org/2018/09/04/ecs-breakout</id><content type="html" xml:base="https://bluerope.org/2018/09/04/ecs-breakout.html">&lt;p&gt;Like I mentioned last time, properly designing and explaining an ECS is best if done in the context of a game.
 I am actually designing a game while doing it, but for explaining it I want a very simple game.&lt;/p&gt;
 
 &lt;p&gt;Breakout is very simple (and is one of the first games I’ve ever owned back on my Atari 2600), so I’m satisfied
@@ -150,7 +154,10 @@ it won’t require anymore of my art.&lt;/p&gt;
 &lt;h1 id=&quot;next-up&quot;&gt;Next up&lt;/h1&gt;
 &lt;p&gt;We’ll get back into actually implementing this and see the basic patterns for a system.&lt;/p&gt;
 
-&lt;p&gt;:computer:&lt;/p&gt;</content><author><name></name></author><category term="swift" /><summary type="html">Like I mentioned last time, properly designing and explaining an ECS is best if done in the context of a game. I am actually designing a game while doing it, but for explaining it I want a very simple game.</summary></entry><entry><title type="html">Another Vuelta Win for King</title><link href="https://bluerope.org/2018/09/02/another-vuelta-win.html" rel="alternate" type="text/html" title="Another Vuelta Win for King" /><published>2018-09-02T00:00:00-05:00</published><updated>2018-09-02T00:00:00-05:00</updated><id>https://bluerope.org/2018/09/02/another-vuelta-win</id><content type="html" xml:base="https://bluerope.org/2018/09/02/another-vuelta-win.html">&lt;p&gt;Can’t believe he got another win in the Vuelta.  He looked absolutely trashed after the stage.
+&lt;h1 id=&quot;history&quot;&gt;History&lt;/h1&gt;
+&lt;p&gt;All posts about the development of SwiftECS can be found &lt;a href=&quot;https://bluerope.org/ecs&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;:computer:&lt;/p&gt;</content><author><name></name></author><category term="swift" /><category term="ecs" /><summary type="html">Like I mentioned last time, properly designing and explaining an ECS is best if done in the context of a game. I am actually designing a game while doing it, but for explaining it I want a very simple game.</summary></entry><entry><title type="html">Another Vuelta Win for King</title><link href="https://bluerope.org/2018/09/02/another-vuelta-win.html" rel="alternate" type="text/html" title="Another Vuelta Win for King" /><published>2018-09-02T00:00:00-05:00</published><updated>2018-09-02T00:00:00-05:00</updated><id>https://bluerope.org/2018/09/02/another-vuelta-win</id><content type="html" xml:base="https://bluerope.org/2018/09/02/another-vuelta-win.html">&lt;p&gt;Can’t believe he got another win in the Vuelta.  He looked absolutely trashed after the stage.
 Luckily tomorrow is a rest day.&lt;/p&gt;
 
 &lt;p&gt;Once again, he posted his ride to &lt;a href=&quot;https://www.strava.com/activities/1815212662/overview&quot;&gt;Strava&lt;/a&gt;.
@@ -162,9 +169,8 @@ I like how left the activity title as “Lunch Ride”.&lt;/p&gt;
 
 &lt;p&gt;:bicyclist:&lt;/p&gt;</content><author><name></name></author><category term="cycling" /><summary type="html">I’m so excited to see Ben King win a stage in this year’s Vuelta. A truly epic ride.</summary></entry><entry><title type="html">C comes after E?</title><link href="https://bluerope.org/2018/08/28/components.html" rel="alternate" type="text/html" title="C comes after E?" /><published>2018-08-28T00:00:00-05:00</published><updated>2018-08-28T00:00:00-05:00</updated><id>https://bluerope.org/2018/08/28/components</id><content type="html" xml:base="https://bluerope.org/2018/08/28/components.html">&lt;p&gt;On the surface components are fairly simple.  In ECS, a component, is basically a set of properties that an entity has.  So if the entity is located somewhere, it might have a Location component with x and y coordinates.  In fact, even though I’m add a protocol for &lt;code class=&quot;highlighter-rouge&quot;&gt;Component&lt;/code&gt;, there’s nothing in it.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;protocol Component {
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Component&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;I added it just in case I ever do need anything on the base component and to add a bit of clarity to the purpose of anything that’s used as a component.&lt;/p&gt;
 
@@ -172,14 +178,12 @@ I like how left the activity title as “Lunch Ride”.&lt;/p&gt;
 
 &lt;p&gt;The slightly more complicated part of components is how they’re stored and associated to an entity.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;protocol ComponentContainer : EntityContainer {
-	associatedtype ComponentType where ComponentType : Component
-	func get(entity: Entity) -&amp;gt; ComponentType?
-	func update(entity: Entity, component: ComponentType)
-	var entities: AnySequence&amp;lt;(Entity, ComponentType)&amp;gt; {get}
-}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ComponentContainer&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;EntityContainer&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;associatedtype&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ComponentType&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ComponentType&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Component&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ComponentType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;update&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;component&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ComponentType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;entities&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnySequence&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ComponentType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;At first I tried to allow the component container able to be a struct, but it ended up really not working well for reasons that’ll be covered later.&lt;/p&gt;
 
@@ -191,12 +195,6 @@ I like how left the activity title as “Lunch Ride”.&lt;/p&gt;
 
 &lt;p&gt;The dense container will internally use an array to store components and the sparse container will use a dictionary instead.  While the implementations are pretty short, I’ll leave them out for now for reasons below.&lt;/p&gt;
 
-&lt;h1 id=&quot;previously&quot;&gt;Previously&lt;/h1&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;/2018/08/11/journey-to-ecs.html&quot;&gt;Journey to Swift ECS&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;/2018/08/23/the-e-in-ecs.html&quot;&gt;The E in ECS&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
 &lt;h1 id=&quot;next-up&quot;&gt;Next up&lt;/h1&gt;
 
 &lt;p&gt;I’ve come to realize that talking about ECS in isolation doesn’t really work well.  I’ve been implementing it while working on a game which drives what I need it to do, but that isn’t really shown in these posts.&lt;/p&gt;
@@ -205,7 +203,11 @@ I like how left the activity title as “Lunch Ride”.&lt;/p&gt;
 
 &lt;p&gt;Once I have enough of it in place, I’ll add a github repository with the ECS implementation and the sample game.&lt;/p&gt;
 
-&lt;p&gt;:computer:&lt;/p&gt;</content><author><name></name></author><category term="swift" /><summary type="html">On the surface components are fairly simple. In ECS, a component, is basically a set of properties that an entity has. So if the entity is located somewhere, it might have a Location component with x and y coordinates. In fact, even though I’m add a protocol for Component, there’s nothing in it.</summary></entry><entry><title type="html">VUELTA BEGINS!</title><link href="https://bluerope.org/2018/08/25/vuelta-starts.html" rel="alternate" type="text/html" title="VUELTA BEGINS!" /><published>2018-08-25T00:00:00-05:00</published><updated>2018-08-25T00:00:00-05:00</updated><id>https://bluerope.org/2018/08/25/vuelta-starts</id><content type="html" xml:base="https://bluerope.org/2018/08/25/vuelta-starts.html">&lt;p&gt;Vuelta Espana started today.&lt;/p&gt;
+&lt;h1 id=&quot;history&quot;&gt;History&lt;/h1&gt;
+
+&lt;p&gt;All posts about the development of SwiftECS can be found &lt;a href=&quot;https://bluerope.org/ecs&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;:computer:&lt;/p&gt;</content><author><name></name></author><category term="swift" /><category term="ecs" /><summary type="html">On the surface components are fairly simple. In ECS, a component, is basically a set of properties that an entity has. So if the entity is located somewhere, it might have a Location component with x and y coordinates. In fact, even though I’m add a protocol for Component, there’s nothing in it.</summary></entry><entry><title type="html">VUELTA BEGINS!</title><link href="https://bluerope.org/2018/08/25/vuelta-starts.html" rel="alternate" type="text/html" title="VUELTA BEGINS!" /><published>2018-08-25T00:00:00-05:00</published><updated>2018-08-25T00:00:00-05:00</updated><id>https://bluerope.org/2018/08/25/vuelta-starts</id><content type="html" xml:base="https://bluerope.org/2018/08/25/vuelta-starts.html">&lt;p&gt;Vuelta Espana started today.&lt;/p&gt;
 
 &lt;p&gt;An 8k TT with a surprisingly bad performance from Richie Porte.  Did I miss some news about him being sick or something?  I wouldn’t expect him to beat Rohan Dennis, but to lose 21 seconds on Quintana is pretty shocking.&lt;/p&gt;
 
@@ -215,10 +217,9 @@ I like how left the activity title as “Lunch Ride”.&lt;/p&gt;
 
 &lt;p&gt;Rather than just a typedef for Int, I decided to make Entity a struct to provide a bit more type safety.  I’m trusting in the swift compiler to make this reasonably efficient.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;struct Entity : Hashable {
-	let id: Int
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Entity&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Hashable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;h1 id=&quot;entitybuilder&quot;&gt;EntityBuilder&lt;/h1&gt;
 
@@ -228,82 +229,78 @@ I like how left the activity title as “Lunch Ride”.&lt;/p&gt;
 
 &lt;p&gt;We’ll come back to &lt;code class=&quot;highlighter-rouge&quot;&gt;EntityBuilder&lt;/code&gt; to help us add components to an entity&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class EntityBuilder {
-	/***
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;EntityBuilder&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;cm&quot;&gt;/***
 	 * Builds an entity with the next available id
-	 */
-	func build() -&amp;gt; Entity {
-		if let freeId = _freeIds.last {
-			_freeIds.removeLast()
-			return Entity(id: freeId)
-		}
-		defer { _nextId += 1 }
-		return Entity(id: _nextId)
-	}
+	 */&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Entity&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;freeId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_freeIds&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;last&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+			&lt;span class=&quot;n&quot;&gt;_freeIds&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;removeLast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+			&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;freeId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;defer&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_nextId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_nextId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-	/***
+	&lt;span class=&quot;cm&quot;&gt;/***
 	 * Destroys an entity, returning it's id to the pool and notifies any registered entity container that it's been destroyed.
-	 */
-	func destroy(entity: Entity) {
-		for list in _lists {
-			list.remove(entity: entity)
-		}
-		_freeIds.append(entity.id)
-	}
-	/***
+	 */&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;destroy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_lists&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+			&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;_freeIds&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;cm&quot;&gt;/***
 	 * Destroys all entities
-	 */
-	func destroyAll() {
-		_nextId = 0
-		_freeIds = []
-		for list in _lists {
-			list.removeAll()
-		}
-	}
+	 */&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;destroyAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;_nextId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;_freeIds&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_lists&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+			&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;removeAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-	/***
+	&lt;span class=&quot;cm&quot;&gt;/***
 	 * Registers a container with the builder that will be notified when an entity is destroyed.
 	 * This allows the container to clean up any resources associated with the entity
-	 */
-	func register(componentList: EntityContainer) {
-		_lists.append(componentList)
-	}
-	/***
+	 */&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;componentList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;EntityContainer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;_lists&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;componentList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;cm&quot;&gt;/***
 	 * Registers multiple containers with the builder.
-	 */
-	func register(lists: [EntityContainer]) {
-		_lists += lists
-	}
-    private var _nextId = 0
-	private var _freeIds = [Int]()
-	private var _lists = [EntityContainer]()
+	 */&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;EntityContainer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;_lists&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lists&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;_nextId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;_freeIds&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;_lists&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;EntityContainer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
 	
 
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;The protocol for EntityContainer is fairly straight forward&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/***
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;cm&quot;&gt;/***
  * Protocol for anything that needs to be notified when an entity is destroyed
- */
-protocol EntityContainer {
-	func remove(entity: Entity)
-	func removeAll()
-	func register(with builder: EntityBuilder) -&amp;gt; Self
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+ */&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;EntityContainer&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;removeAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;EntityBuilder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;So we end up with an entity builder that can create entities and destroy them, then notify anything interested when entities are destroyed (purely for cleaning up any resources).&lt;/p&gt;
-
-&lt;h1 id=&quot;previously&quot;&gt;Previously&lt;/h1&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;/2018/08/11/journey-to-ecs.html&quot;&gt;Journey to Swift ECS&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
 
 &lt;h1 id=&quot;next-up&quot;&gt;Next up&lt;/h1&gt;
 &lt;p&gt;Components and component containers&lt;/p&gt;
 
-&lt;p&gt;:computer:&lt;/p&gt;</content><author><name></name></author><category term="swift" /><summary type="html">In ECS, entities are just an identifier which components will be attached to, usually just an integer.</summary></entry><entry><title type="html">Eat. Race. Win.</title><link href="https://bluerope.org/2018/08/13/eat-race-win.html" rel="alternate" type="text/html" title="Eat. Race. Win." /><published>2018-08-13T00:00:00-05:00</published><updated>2018-08-13T00:00:00-05:00</updated><id>https://bluerope.org/2018/08/13/eat-race-win</id><content type="html" xml:base="https://bluerope.org/2018/08/13/eat-race-win.html">&lt;p&gt;I’m almost through watching this on Amazon Prime. It’s coverving the 2017 Tour de France with Orica Scott, and focusing on how their chef feeds them for 3 weeks.&lt;/p&gt;
+&lt;p&gt;All posts about the development of SwiftECS can be found &lt;a href=&quot;https://bluerope.org/ecs&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;:computer:&lt;/p&gt;</content><author><name></name></author><category term="swift" /><category term="ecs" /><summary type="html">In ECS, entities are just an identifier which components will be attached to, usually just an integer.</summary></entry><entry><title type="html">Eat. Race. Win.</title><link href="https://bluerope.org/2018/08/13/eat-race-win.html" rel="alternate" type="text/html" title="Eat. Race. Win." /><published>2018-08-13T00:00:00-05:00</published><updated>2018-08-13T00:00:00-05:00</updated><id>https://bluerope.org/2018/08/13/eat-race-win</id><content type="html" xml:base="https://bluerope.org/2018/08/13/eat-race-win.html">&lt;p&gt;I’m almost through watching this on Amazon Prime. It’s coverving the 2017 Tour de France with Orica Scott, and focusing on how their chef feeds them for 3 weeks.&lt;/p&gt;
 
 &lt;p&gt;It combines 2 of the things I love: cycling and eating.  Very enjoyable so far.&lt;/p&gt;
 
@@ -340,6 +337,8 @@ protocol EntityContainer {
 
 &lt;p&gt;This is already way longer than I intended.  I want to try and keep posts short so I can post more often.  We’ll see how it goes.&lt;/p&gt;
 
-&lt;p&gt;:computer:&lt;/p&gt;</content><author><name></name></author><category term="swift" /><summary type="html">While I’m a developer by day, I don’t do much iOS development anymore and certainly no game development.</summary></entry><entry><title type="html">Back to Blogging</title><link href="https://bluerope.org/2018/08/08/back-to-blogging.html" rel="alternate" type="text/html" title="Back to Blogging" /><published>2018-08-08T00:00:00-05:00</published><updated>2018-08-08T00:00:00-05:00</updated><id>https://bluerope.org/2018/08/08/back-to-blogging</id><content type="html" xml:base="https://bluerope.org/2018/08/08/back-to-blogging.html">&lt;p&gt;It’s been a long time since I’ve blogged, and I never really good about keeping it consistent before anyway.  I’m going to give it another shot to see it I can provide anything useful to anyone else.&lt;/p&gt;
+&lt;p&gt;All posts about development SwiftECS can be found &lt;a href=&quot;https://bluerope.org/ecs&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;:computer:&lt;/p&gt;</content><author><name></name></author><category term="swift" /><category term="ecs" /><summary type="html">While I’m a developer by day, I don’t do much iOS development anymore and certainly no game development.</summary></entry><entry><title type="html">Back to Blogging</title><link href="https://bluerope.org/2018/08/08/back-to-blogging.html" rel="alternate" type="text/html" title="Back to Blogging" /><published>2018-08-08T00:00:00-05:00</published><updated>2018-08-08T00:00:00-05:00</updated><id>https://bluerope.org/2018/08/08/back-to-blogging</id><content type="html" xml:base="https://bluerope.org/2018/08/08/back-to-blogging.html">&lt;p&gt;It’s been a long time since I’ve blogged, and I never really good about keeping it consistent before anyway.  I’m going to give it another shot to see it I can provide anything useful to anyone else.&lt;/p&gt;
 
 &lt;p&gt;In general I’ll be writing mostly about software development, but also some about games (tabletop and video) and cycling (I’m no fitness guru but I’m a cyclist and runner, so I do like talking about it sometimes)&lt;/p&gt;</content><author><name></name></author><summary type="html">It’s been a long time since I’ve blogged, and I never really good about keeping it consistent before anyway. I’m going to give it another shot to see it I can provide anything useful to anyone else.</summary></entry></feed>

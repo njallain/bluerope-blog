@@ -250,24 +250,25 @@ and the scene will pass those into the system each game loop.</p>
 here because</p>
 
 <h2 id="components">Components</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>///  Describes how an entity moves
-struct Movable : Component {
-}
 
-protocol MovableComponents {
-  associatedtype MovableContainerType: ComponentContainer where MovableContainerType.ComponentType == Movable
-  var movables: MovableContainerType {get}
-}
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">///  Describes how an entity moves</span>
+<span class="kd">struct</span> <span class="kt">Movable</span> <span class="p">:</span> <span class="kt">Component</span> <span class="p">{</span>
+<span class="p">}</span>
 
-/// Describes the physical body and location of an entity
-struct Body : Component {
-}
+<span class="kd">protocol</span> <span class="kt">MovableComponents</span> <span class="p">{</span>
+  <span class="kd">associatedtype</span> <span class="kt">MovableContainerType</span><span class="p">:</span> <span class="kt">ComponentContainer</span> <span class="k">where</span> <span class="kt">MovableContainerType</span><span class="o">.</span><span class="kt">ComponentType</span> <span class="o">==</span> <span class="kt">Movable</span>
+  <span class="k">var</span> <span class="nv">movables</span><span class="p">:</span> <span class="kt">MovableContainerType</span> <span class="p">{</span><span class="k">get</span><span class="p">}</span>
+<span class="p">}</span>
 
-protocol BodyComponents {
-  associatedtype BodyContainerType: ComponentContainer where BodyContainerType.ComponentType == Body
-  var bodies: BodyContainerType {get}
-}
-</code></pre></div></div>
+<span class="c1">/// Describes the physical body and location of an entity</span>
+<span class="kd">struct</span> <span class="kt">Body</span> <span class="p">:</span> <span class="kt">Component</span> <span class="p">{</span>
+<span class="p">}</span>
+
+<span class="kd">protocol</span> <span class="kt">BodyComponents</span> <span class="p">{</span>
+  <span class="kd">associatedtype</span> <span class="kt">BodyContainerType</span><span class="p">:</span> <span class="kt">ComponentContainer</span> <span class="k">where</span> <span class="kt">BodyContainerType</span><span class="o">.</span><span class="kt">ComponentType</span> <span class="o">==</span> <span class="kt">Body</span>
+  <span class="k">var</span> <span class="nv">bodies</span><span class="p">:</span> <span class="kt">BodyContainerType</span> <span class="p">{</span><span class="k">get</span><span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
 <p>The important parts of this are the <code class="highlighter-rouge">MovableComponents</code> and <code class="highlighter-rouge">BodyComponents</code> protocols.  These will be used for a system to declare what kind of components
 it is dependent on.</p>
 
@@ -277,25 +278,25 @@ their dependencies.</p>
 <p>I tried playing around with Xcode snippets a bit to see if I could make adding them a bit easier, but that seems insufficient.  I think an Xcode template will work.</p>
 
 <h2 id="system">System</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="cm">/**
  The movement system depends on the following components
  - Movables: determine how the entity moves
  - Bodies: the location of the entity
-*/
-protocol MovementScene: EntityScene, MovableComponents, BodyComponents {
-}
+*/</span>
+<span class="kd">protocol</span> <span class="kt">MovementScene</span><span class="p">:</span> <span class="kt">EntityScene</span><span class="p">,</span> <span class="kt">MovableComponents</span><span class="p">,</span> <span class="kt">BodyComponents</span> <span class="p">{</span>
+<span class="p">}</span>
 
-/**
+<span class="cm">/**
  Moves all of the components that need to be
-*/
-class MovementSystem&lt;SceneType: MovementScene&gt;: System {
-  func update&lt;SceneType: MovementScene&gt;(scene: SceneType, timeDelta: TimeInterval) {
-    scene.movables.forEach(with: scene.bodies) { entity, movable, body in
-      // move the entity
-    }
-  }
-}
-</code></pre></div></div>
+*/</span>
+<span class="kd">class</span> <span class="kt">MovementSystem</span><span class="o">&lt;</span><span class="kt">SceneType</span><span class="p">:</span> <span class="kt">MovementScene</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">System</span> <span class="p">{</span>
+  <span class="kd">func</span> <span class="n">update</span><span class="o">&lt;</span><span class="kt">SceneType</span><span class="p">:</span> <span class="kt">MovementScene</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">scene</span><span class="p">:</span> <span class="kt">SceneType</span><span class="p">,</span> <span class="nv">timeDelta</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">scene</span><span class="o">.</span><span class="n">movables</span><span class="o">.</span><span class="nf">forEach</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">scene</span><span class="o">.</span><span class="n">bodies</span><span class="p">)</span> <span class="p">{</span> <span class="n">entity</span><span class="p">,</span> <span class="n">movable</span><span class="p">,</span> <span class="n">body</span> <span class="k">in</span>
+      <span class="c1">// move the entity</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
 
 <p>The <code class="highlighter-rouge">MovementScene</code> protocol is how we declare what the <code class="highlighter-rouge">MovementSystem</code> is dependent on. The <code class="highlighter-rouge">EntityScene</code> protocol is just the base protocol
 for scenes and includes a property for the <code class="highlighter-rouge">EntityBuilder</code> so entities can be added and removed.</p>
@@ -309,22 +310,22 @@ the MovementSystem can update any scene that has both <code class="highlighter-r
 
 <h2 id="scene">Scene</h2>
 <p>Finally there’s the scene itself.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class BreakoutScene: EntityScene, MovementScene, CollisionScene {
-  let builder = EntityBuilder()
 
-  // all components
-  let bodies = DenseComponentContainer&lt;Body&gt;()
-  let movables = SparseComponentContainer&lt;Movable&gt;()
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">BreakoutScene</span><span class="p">:</span> <span class="kt">EntityScene</span><span class="p">,</span> <span class="kt">MovementScene</span><span class="p">,</span> <span class="kt">CollisionScene</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="nv">builder</span> <span class="o">=</span> <span class="kt">EntityBuilder</span><span class="p">()</span>
 
-  // all systems
-  let movementSystem = MovementSystem&lt;BreakoutScene&gt;()
+  <span class="c1">// all components</span>
+  <span class="k">let</span> <span class="nv">bodies</span> <span class="o">=</span> <span class="kt">DenseComponentContainer</span><span class="o">&lt;</span><span class="kt">Body</span><span class="o">&gt;</span><span class="p">()</span>
+  <span class="k">let</span> <span class="nv">movables</span> <span class="o">=</span> <span class="kt">SparseComponentContainer</span><span class="o">&lt;</span><span class="kt">Movable</span><span class="o">&gt;</span><span class="p">()</span>
 
-  func update(_ timeDelta: TimeInterval) {
-    movementSystem.update(scene: self, timeDelta: timeDelta)
-    // update the other systems
-  }
-}
-</code></pre></div></div>
+  <span class="c1">// all systems</span>
+  <span class="k">let</span> <span class="nv">movementSystem</span> <span class="o">=</span> <span class="kt">MovementSystem</span><span class="o">&lt;</span><span class="kt">BreakoutScene</span><span class="o">&gt;</span><span class="p">()</span>
+
+  <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="n">_</span> <span class="nv">timeDelta</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">movementSystem</span><span class="o">.</span><span class="nf">update</span><span class="p">(</span><span class="nv">scene</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="nv">timeDelta</span><span class="p">:</span> <span class="n">timeDelta</span><span class="p">)</span>
+    <span class="c1">// update the other systems</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
 
 <p>The <code class="highlighter-rouge">BreakoutScene</code> class is pretty much an analog for the <code class="highlighter-rouge">SKScene</code> subclass that would be in a SpriteKit
 game.  I’ve chosen to keep it separate just to keep a bit of extra separation from the SpriteKit specific code.</p>
@@ -347,6 +348,9 @@ game.  I’ve chosen to keep it separate just to keep a bit of extra separation 
 
 <h1 id="next-up">Next up</h1>
 <p>We’ll get back into actually implementing this and see the basic patterns for a system.</p>
+
+<h1 id="history">History</h1>
+<p>All posts about the development of SwiftECS can be found <a href="https://bluerope.org/ecs">here</a></p>
 
 <p><img class="emoji" title=":computer:" alt=":computer:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f4bb.png" height="20" width="20"></p>
 

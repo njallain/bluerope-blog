@@ -232,9 +232,8 @@
         
         <p>On the surface components are fairly simple.  In ECS, a component, is basically a set of properties that an entity has.  So if the entity is located somewhere, it might have a Location component with x and y coordinates.  In fact, even though I’m add a protocol for <code class="highlighter-rouge">Component</code>, there’s nothing in it.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>protocol Component {
-}
-</code></pre></div></div>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">protocol</span> <span class="kt">Component</span> <span class="p">{</span>
+<span class="p">}</span></code></pre></figure>
 
 <p>I added it just in case I ever do need anything on the base component and to add a bit of clarity to the purpose of anything that’s used as a component.</p>
 
@@ -242,14 +241,12 @@
 
 <p>The slightly more complicated part of components is how they’re stored and associated to an entity.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>protocol ComponentContainer : EntityContainer {
-	associatedtype ComponentType where ComponentType : Component
-	func get(entity: Entity) -&gt; ComponentType?
-	func update(entity: Entity, component: ComponentType)
-	var entities: AnySequence&lt;(Entity, ComponentType)&gt; {get}
-}
-
-</code></pre></div></div>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">protocol</span> <span class="kt">ComponentContainer</span> <span class="p">:</span> <span class="kt">EntityContainer</span> <span class="p">{</span>
+	<span class="kd">associatedtype</span> <span class="kt">ComponentType</span> <span class="k">where</span> <span class="kt">ComponentType</span> <span class="p">:</span> <span class="kt">Component</span>
+	<span class="kd">func</span> <span class="nf">get</span><span class="p">(</span><span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ComponentType</span><span class="p">?</span>
+	<span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">,</span> <span class="nv">component</span><span class="p">:</span> <span class="kt">ComponentType</span><span class="p">)</span>
+	<span class="k">var</span> <span class="nv">entities</span><span class="p">:</span> <span class="kt">AnySequence</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">Entity</span><span class="p">,</span> <span class="kt">ComponentType</span><span class="p">)</span><span class="o">&gt;</span> <span class="p">{</span><span class="k">get</span><span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
 
 <p>At first I tried to allow the component container able to be a struct, but it ended up really not working well for reasons that’ll be covered later.</p>
 
@@ -261,12 +258,6 @@
 
 <p>The dense container will internally use an array to store components and the sparse container will use a dictionary instead.  While the implementations are pretty short, I’ll leave them out for now for reasons below.</p>
 
-<h1 id="previously">Previously</h1>
-<ul>
-  <li><a href="/2018/08/11/journey-to-ecs.html">Journey to Swift ECS</a></li>
-  <li><a href="/2018/08/23/the-e-in-ecs.html">The E in ECS</a></li>
-</ul>
-
 <h1 id="next-up">Next up</h1>
 
 <p>I’ve come to realize that talking about ECS in isolation doesn’t really work well.  I’ve been implementing it while working on a game which drives what I need it to do, but that isn’t really shown in these posts.</p>
@@ -274,6 +265,10 @@
 <p>To fix that, I’ll write a simple game to go along with it.  It won’t be anywhere near complicated enough to really justify using an ECS (I’m thinking Breakout), but hopefully it’ll be enough to illustrate how it’s used.</p>
 
 <p>Once I have enough of it in place, I’ll add a github repository with the ECS implementation and the sample game.</p>
+
+<h1 id="history">History</h1>
+
+<p>All posts about the development of SwiftECS can be found <a href="https://bluerope.org/ecs">here</a></p>
 
 <p><img class="emoji" title=":computer:" alt=":computer:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f4bb.png" height="20" width="20"></p>
 

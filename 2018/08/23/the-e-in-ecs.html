@@ -234,10 +234,9 @@
 
 <p>Rather than just a typedef for Int, I decided to make Entity a struct to provide a bit more type safety.  I’m trusting in the swift compiler to make this reasonably efficient.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct Entity : Hashable {
-	let id: Int
-}
-</code></pre></div></div>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">Entity</span> <span class="p">:</span> <span class="kt">Hashable</span> <span class="p">{</span>
+	<span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span>
+<span class="p">}</span></code></pre></figure>
 
 <h1 id="entitybuilder">EntityBuilder</h1>
 
@@ -247,80 +246,76 @@
 
 <p>We’ll come back to <code class="highlighter-rouge">EntityBuilder</code> to help us add components to an entity</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class EntityBuilder {
-	/***
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">EntityBuilder</span> <span class="p">{</span>
+	<span class="cm">/***
 	 * Builds an entity with the next available id
-	 */
-	func build() -&gt; Entity {
-		if let freeId = _freeIds.last {
-			_freeIds.removeLast()
-			return Entity(id: freeId)
-		}
-		defer { _nextId += 1 }
-		return Entity(id: _nextId)
-	}
+	 */</span>
+	<span class="kd">func</span> <span class="nf">build</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Entity</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="k">let</span> <span class="nv">freeId</span> <span class="o">=</span> <span class="n">_freeIds</span><span class="o">.</span><span class="n">last</span> <span class="p">{</span>
+			<span class="n">_freeIds</span><span class="o">.</span><span class="nf">removeLast</span><span class="p">()</span>
+			<span class="k">return</span> <span class="kt">Entity</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="n">freeId</span><span class="p">)</span>
+		<span class="p">}</span>
+		<span class="k">defer</span> <span class="p">{</span> <span class="n">_nextId</span> <span class="o">+=</span> <span class="mi">1</span> <span class="p">}</span>
+		<span class="k">return</span> <span class="kt">Entity</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="n">_nextId</span><span class="p">)</span>
+	<span class="p">}</span>
 
-	/***
+	<span class="cm">/***
 	 * Destroys an entity, returning it's id to the pool and notifies any registered entity container that it's been destroyed.
-	 */
-	func destroy(entity: Entity) {
-		for list in _lists {
-			list.remove(entity: entity)
-		}
-		_freeIds.append(entity.id)
-	}
-	/***
+	 */</span>
+	<span class="kd">func</span> <span class="nf">destroy</span><span class="p">(</span><span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="n">list</span> <span class="k">in</span> <span class="n">_lists</span> <span class="p">{</span>
+			<span class="n">list</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="nv">entity</span><span class="p">:</span> <span class="n">entity</span><span class="p">)</span>
+		<span class="p">}</span>
+		<span class="n">_freeIds</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="cm">/***
 	 * Destroys all entities
-	 */
-	func destroyAll() {
-		_nextId = 0
-		_freeIds = []
-		for list in _lists {
-			list.removeAll()
-		}
-	}
+	 */</span>
+	<span class="kd">func</span> <span class="nf">destroyAll</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">_nextId</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="n">_freeIds</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">list</span> <span class="k">in</span> <span class="n">_lists</span> <span class="p">{</span>
+			<span class="n">list</span><span class="o">.</span><span class="nf">removeAll</span><span class="p">()</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
 
-	/***
+	<span class="cm">/***
 	 * Registers a container with the builder that will be notified when an entity is destroyed.
 	 * This allows the container to clean up any resources associated with the entity
-	 */
-	func register(componentList: EntityContainer) {
-		_lists.append(componentList)
-	}
-	/***
+	 */</span>
+	<span class="kd">func</span> <span class="nf">register</span><span class="p">(</span><span class="nv">componentList</span><span class="p">:</span> <span class="kt">EntityContainer</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">_lists</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">componentList</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="cm">/***
 	 * Registers multiple containers with the builder.
-	 */
-	func register(lists: [EntityContainer]) {
-		_lists += lists
-	}
-    private var _nextId = 0
-	private var _freeIds = [Int]()
-	private var _lists = [EntityContainer]()
+	 */</span>
+	<span class="kd">func</span> <span class="nf">register</span><span class="p">(</span><span class="nv">lists</span><span class="p">:</span> <span class="p">[</span><span class="kt">EntityContainer</span><span class="p">])</span> <span class="p">{</span>
+		<span class="n">_lists</span> <span class="o">+=</span> <span class="n">lists</span>
+	<span class="p">}</span>
+  <span class="kd">private</span> <span class="k">var</span> <span class="nv">_nextId</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="kd">private</span> <span class="k">var</span> <span class="nv">_freeIds</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]()</span>
+	<span class="kd">private</span> <span class="k">var</span> <span class="nv">_lists</span> <span class="o">=</span> <span class="p">[</span><span class="kt">EntityContainer</span><span class="p">]()</span>
 	
 
-}
-</code></pre></div></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>The protocol for EntityContainer is fairly straight forward</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/***
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="cm">/***
  * Protocol for anything that needs to be notified when an entity is destroyed
- */
-protocol EntityContainer {
-	func remove(entity: Entity)
-	func removeAll()
-	func register(with builder: EntityBuilder) -&gt; Self
-}
-</code></pre></div></div>
+ */</span>
+<span class="kd">protocol</span> <span class="kt">EntityContainer</span> <span class="p">{</span>
+	<span class="kd">func</span> <span class="nf">remove</span><span class="p">(</span><span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">)</span>
+	<span class="kd">func</span> <span class="nf">removeAll</span><span class="p">()</span>
+	<span class="kd">func</span> <span class="nf">register</span><span class="p">(</span><span class="n">with</span> <span class="nv">builder</span><span class="p">:</span> <span class="kt">EntityBuilder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span>
+<span class="p">}</span></code></pre></figure>
 
 <p>So we end up with an entity builder that can create entities and destroy them, then notify anything interested when entities are destroyed (purely for cleaning up any resources).</p>
 
-<h1 id="previously">Previously</h1>
-<ul>
-  <li><a href="/2018/08/11/journey-to-ecs.html">Journey to Swift ECS</a></li>
-</ul>
-
 <h1 id="next-up">Next up</h1>
 <p>Components and component containers</p>
+
+<p>All posts about the development of SwiftECS can be found <a href="https://bluerope.org/ecs">here</a></p>
 
 <p><img class="emoji" title=":computer:" alt=":computer:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f4bb.png" height="20" width="20"></p>
 
